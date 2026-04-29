@@ -170,7 +170,7 @@
     </div>
 
     <div id="hiddenSection1" class="hidden-section">
-        <p class="file-section-title">🔍 检索结果 — 关键词：“名单”</p>
+        <p class="file-section-title">🔍 检索结果</p>
         <div class="file-list">
             <div class="file-item">
                 <span>📄 特殊人员名单（加密）— 实验对象编号列表</span>
@@ -180,10 +180,10 @@
     </div>
 
     <div id="hiddenSection2" class="hidden-section">
-        <p class="file-section-title">🔍 检索结果 — 关键词：“江屿”</p>
+        <p class="file-section-title">🔍 检索结果</p>
         <div class="file-list">
             <div class="file-item">
-                <span>📄 江屿个人日志（加密）— SUB-001 私人记录</span>
+                <span>📄 个人日志（加密）— SUB-001 私人记录</span>
                 <span><span class="tag confidential">加密</span> <a href="jiangyu-diary.html">查看</a></span>
             </div>
         </div>
@@ -204,7 +204,7 @@
 
             if (unlocked) {
                 statusEl.className = 'status unlocked';
-                statusEl.innerHTML = '✅ 数据库检索已解锁 — 可输入关键词搜索，如“名单”、“镜像”、“江屿”。';
+                statusEl.innerHTML = '✅ 数据库检索已解锁。请输入关键词搜索。';
             } else {
                 statusEl.className = 'status locked';
                 statusEl.innerHTML = '🔒 搜索功能已锁定 — 请输入管理员密钥以解锁数据库检索。';
@@ -232,7 +232,7 @@
                     unlocked = true;
                     localStorage.setItem('minghui_search_unlocked', 'true');
                     updateUI();
-                    feedback.innerHTML = '<span class="success">✅ 管理员密钥验证通过。搜索功能已解锁。隐藏档案已添加至下方列表。</span>';
+                    feedback.innerHTML = '<span class="success">✅ 管理员密钥验证通过。搜索功能已解锁。</span>';
                 } else {
                     feedback.innerHTML = '<span class="error">❌ 密钥错误。提示：项目正式名称（英文大写）+ 年份。</span>';
                 }
@@ -263,13 +263,13 @@
                 listFound = true;
                 localStorage.setItem('minghui_list_found', 'true');
                 updateUI();
-                msg += '🔍 找到 1 条隐藏记录：特殊人员名单。已添加至下方列表。 ';
+                msg += '🔍 找到 1 条隐藏记录。已添加至下方列表。 ';
             }
             if (foundDiary && !diaryFound) {
                 diaryFound = true;
                 localStorage.setItem('minghui_diary_found', 'true');
                 updateUI();
-                msg += '🔍 找到 1 条隐藏记录：江屿个人日志。已添加至下方列表。';
+                msg += '🔍 找到 1 条隐藏记录。已添加至下方列表。';
             }
 
             if (msg) {
@@ -277,7 +277,7 @@
             } else if (foundList || foundDiary) {
                 feedback.innerHTML = '<span class="info">🔍 该记录已在下方列表中。</span>';
             } else {
-                feedback.innerHTML = '<span class="info">🔍 未找到与 "' + input + '" 相关的记录。尝试搜索：名单、镜像、江屿。</span>';
+                feedback.innerHTML = '<span class="info">🔍 未找到与 "' + input + '" 相关的记录。</span>';
             }
         }
     </script>
