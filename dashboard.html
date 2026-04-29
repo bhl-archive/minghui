@@ -26,7 +26,6 @@
             margin-bottom: 20px;
         }
 
-        /* 搜索框区域 */
         .search-area {
             border: 1px solid #444;
             background: #111;
@@ -35,6 +34,257 @@
         }
         .search-area .status {
             font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .search-area .status.locked {
+            color: #cc0000;
+        }
+        .search-area .status.unlocked {
+            color: #00cc00;
+        }
+        .search-row {
+            display: flex;
+            gap: 10px;
+        }
+        .search-row input {
+            flex: 1;
+            padding: 10px;
+            background: #000;
+            border: 1px solid #444;
+            color: #ccc;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+        }
+        .search-row button {
+            padding: 10px 25px;
+            background: #1a3a5c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        .search-row button:hover {
+            background: #0f2a45;
+        }
+        .search-feedback {
+            margin-top: 12px;
+            font-size: 13px;
+            min-height: 20px;
+        }
+        .search-feedback .error {
+            color: #cc0000;
+        }
+        .search-feedback .success {
+            color: #00cc00;
+        }
+        .search-feedback .info {
+            color: #888;
+        }
+        .search-feedback a {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+        .search-feedback a:hover {
+            color: #ffffff;
+        }
+
+        .file-section-title {
+            color: #888;
+            font-size: 14px;
+            margin: 25px 0 10px 0;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 8px;
+        }
+        .file-list {
+            margin: 10px 0;
+        }
+        .file-item {
+            padding: 12px 15px;
+            margin: 6px 0;
+            border: 1px solid #333;
+            background: #111;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-item a {
+            color: #88ccaa;
+            text-decoration: none;
+        }
+        .file-item a:hover {
+            color: #ffffff;
+        }
+        .file-item .tag {
+            background: #333;
+            color: #999;
+            padding: 3px 10px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        .file-item .tag.confidential {
+            background: #660000;
+            color: #cc6666;
+        }
+        .hidden-section {
+            display: none;
+            margin-top: 10px;
+        }
+        .hidden-section.visible {
+            display: block;
+        }
+        .footer-info {
+            color: #555;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <span class="logout">当前用户：admin | <a href="admin-login.html" style="color:#555;">退出</a></span>
+    <h2>明辉研究所 · 内部管理系统</h2>
+    <p class="warning">⚠ 此系统仅供授权人员使用。所有操作将被记录。</p>
+
+    <div class="search-area">
+        <p id="searchStatus" class="status locked">🔒 搜索功能已锁定 — 请输入管理员密钥以解锁数据库检索。</p>
+        <div class="search-row">
+            <input type="text" id="searchInput" placeholder="输入搜索内容...">
+            <button onclick="search()">搜索</button>
+        </div>
+        <div id="searchFeedback" class="search-feedback"></div>
+    </div>
+
+    <p class="file-section-title">📂 常规文件</p>
+    <div class="file-list">
+        <div class="file-item">
+            <span>📄 2023年第三季度工作日志</span>
+            <span><span class="tag">内部</span> <a href="log-2023.html">查看</a></span>
+        </div>
+        <div class="file-item">
+            <span>📄 实验室设备检查记录</span>
+            <span><span class="tag">内部</span> <a href="equipment.html">查看</a></span>
+        </div>
+        <div class="file-item">
+            <span>📄 2023年12月内部会议纪要</span>
+            <span><span class="tag">内部</span> <a href="meeting.html">查看</a></span>
+        </div>
+    </div>
+
+    <div id="hiddenSection1" class="hidden-section">
+        <p class="file-section-title">🔍 检索结果 — 关键词：“名单”</p>
+        <div class="file-list">
+            <div class="file-item">
+                <span>📄 特殊人员名单（加密）— 实验对象编号列表</span>
+                <span><span class="tag confidential">加密</span> <a href="special-list.html">查看</a></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="hiddenSection2" class="hidden-section">
+        <p class="file-section-title">🔍 检索结果 — 关键词：“江屿”</p>
+        <div class="file-list">
+            <div class="file-item">
+                <span>📄 江屿个人日志（加密）— SUB-001 私人记录</span>
+                <span><span class="tag confidential">加密</span> <a href="jiangyu-diary.html">查看</a></span>
+            </div>
+        </div>
+    </div>
+
+    <p class="footer-info">最后登录：2024-01-15 09:23:17 | 系统版本 v2.1.4</p>
+
+    <script>
+        var unlocked = localStorage.getItem('minghui_search_unlocked') === 'true';
+        var listFound = localStorage.getItem('minghui_list_found') === 'true';
+        var diaryFound = localStorage.getItem('minghui_diary_found') === 'true';
+        updateUI();
+
+        function updateUI() {
+            var statusEl = document.getElementById('searchStatus');
+            var hidden1 = document.getElementById('hiddenSection1');
+            var hidden2 = document.getElementById('hiddenSection2');
+
+            if (unlocked) {
+                statusEl.className = 'status unlocked';
+                statusEl.innerHTML = '✅ 数据库检索已解锁 — 可输入关键词搜索，如“名单”、“镜像”、“江屿”。';
+            } else {
+                statusEl.className = 'status locked';
+                statusEl.innerHTML = '🔒 搜索功能已锁定 — 请输入管理员密钥以解锁数据库检索。';
+            }
+
+            if (listFound) {
+                hidden1.className = 'hidden-section visible';
+            }
+            if (diaryFound) {
+                hidden2.className = 'hidden-section visible';
+            }
+        }
+
+        function search() {
+            var input = document.getElementById('searchInput').value.trim();
+            var feedback = document.getElementById('searchFeedback');
+
+            if (!input) {
+                feedback.innerHTML = '';
+                return;
+            }
+
+            if (!unlocked) {
+                if (input === 'MIRROR2023') {
+                    unlocked = true;
+                    localStorage.setItem('minghui_search_unlocked', 'true');
+                    updateUI();
+                    feedback.innerHTML = '<span class="success">✅ 管理员密钥验证通过。搜索功能已解锁。隐藏档案已添加至下方列表。</span>';
+                } else {
+                    feedback.innerHTML = '<span class="error">❌ 密钥错误。提示：项目正式名称（英文大写）+ 年份。</span>';
+                }
+                return;
+            }
+
+            var listKeywords = ['名单', '镜像', '特殊', '实验对象', '编号', 'SUB'];
+            var diaryKeywords = ['江屿', '失踪', 'SUB-001', '个人', '日志', '日记'];
+
+            var foundList = false;
+            var foundDiary = false;
+
+            for (var i = 0; i < listKeywords.length; i++) {
+                if (input.indexOf(listKeywords[i]) !== -1) {
+                    foundList = true;
+                    break;
+                }
+            }
+            for (var i = 0; i < diaryKeywords.length; i++) {
+                if (input.indexOf(diaryKeywords[i]) !== -1) {
+                    foundDiary = true;
+                    break;
+                }
+            }
+
+            var msg = '';
+            if (foundList && !listFound) {
+                listFound = true;
+                localStorage.setItem('minghui_list_found', 'true');
+                updateUI();
+                msg += '🔍 找到 1 条隐藏记录：特殊人员名单。已添加至下方列表。 ';
+            }
+            if (foundDiary && !diaryFound) {
+                diaryFound = true;
+                localStorage.setItem('minghui_diary_found', 'true');
+                updateUI();
+                msg += '🔍 找到 1 条隐藏记录：江屿个人日志。已添加至下方列表。';
+            }
+
+            if (msg) {
+                feedback.innerHTML = '<span class="success">' + msg + '</span>';
+            } else if (foundList || foundDiary) {
+                feedback.innerHTML = '<span class="info">🔍 该记录已在下方列表中。</span>';
+            } else {
+                feedback.innerHTML = '<span class="info">🔍 未找到与 "' + input + '" 相关的记录。尝试搜索：名单、镜像、江屿。</span>';
+            }
+        }
+    </script>
+</body>
+</html>            font-size: 13px;
             margin-bottom: 10px;
         }
         .search-area .status.locked {
