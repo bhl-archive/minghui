@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>明辉研究所 - 内部系统登录</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: "Courier New", monospace;
+        }
+        .login-box {
+            background: #111;
+            border: 1px solid #333;
+            padding: 40px;
+            width: 350px;
+            text-align: center;
+        }
+        .login-box h3 {
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #000;
+            border: 1px solid #444;
+            color: #ccc;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .login-box button {
+            margin-top: 20px;
+            padding: 10px 40px;
+            background: #1a3a5c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .login-box button:hover {
+            background: #0f2a45;
+        }
+        .error {
+            color: #cc0000;
+            font-size: 12px;
+            margin-top: 15px;
+            min-height: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h3>明辉研究所 · 内部系统</h3>
+        <input type="text" id="username" placeholder="管理员账号">
+        <input type="password" id="password" placeholder="管理员密码">
+        <button onclick="checkLogin()">登 录</button>
+        <p id="errorMsg" class="error"></p>
+    </div>
+
+    <script>
+        function checkLogin() {
+            var user = document.getElementById('username').value;
+            var pass = document.getElementById('password').value;
+            if (user === 'admin' && pass === '2021OCT') {
+                window.location.href = 'dashboard.html';
+            } else {
+                document.getElementById('errorMsg').innerText = '账号或密码错误。';
+            }
+        }
+    </script>
+</body>
+</html>
