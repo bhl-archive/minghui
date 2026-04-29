@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>明辉研究所 - 内部管理系统</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ccc;
+            font-family: "Courier New", monospace;
+            margin: 30px;
+        }
+        h2 {
+            color: #1a8a5c;
+            border-bottom: 1px solid #1a8a5c;
+            padding-bottom: 10px;
+        }
+        .logout {
+            float: right;
+            color: #555;
+            font-size: 13px;
+        }
+        .warning {
+            color: #cc0000;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* 搜索框区域 */
+        .search-area {
+            border: 1px solid #333;
+            background: #111;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .search-area input {
+            width: 60%;
+            padding: 10px;
+            background: #000;
+            border: 1px solid #444;
+            color: #ccc;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+        }
+        .search-area button {
+            padding: 10px 25px;
+            background: #1a3a5c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+        }
+        .search-area button:hover {
+            background: #0f2a45;
+        }
+        .search-result {
+            margin-top: 15px;
+            min-height: 30px;
+            font-size: 13px;
+        }
+        .search-result a {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+        .search-result a:hover {
+            color: #ffffff;
+        }
+        .locked-msg {
+            color: #cc0000;
+        }
+        .unlocked-msg {
+            color: #00cc00;
+        }
+
+        /* 文件列表 */
+        .file-list {
+            margin: 20px 0;
+        }
+        .file-item {
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 1px solid #333;
+            background: #111;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-item a {
+            color: #88ccaa;
+            text-decoration: none;
+        }
+        .file-item a:hover {
+            color: #ffffff;
+        }
+        .file-item .tag {
+            background: #333;
+            color: #999;
+            padding: 3px 10px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        .file-item .tag.confidential {
+            background: #660000;
+            color: #cc6666;
+        }
+        .footer-info {
+            color: #555;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <span class="logout">当前用户：admin | <a href="admin-login.html" style="color:#555;">退出</a></span>
+    <h2>明辉研究所 · 内部管理系统</h2>
+    <p class="warning">⚠ 此系统仅供授权人员使用。所有操作将被记录。</p>
+
+    <!-- 搜索框 -->
+    <div class="search-area">
+        <p style="color:#888; font-size:13px;">数据库检索</p>
+        <input type="text" id="searchInput" placeholder="输入关键词搜索...">
+        <button onclick="search()">搜索</button>
+        <div id="searchResult" class="search-result"></div>
+    </div>
+
+    <!-- 普通文件列表 -->
+    <div class="file-list">
+        <div class="file-item">
+            <span>📄 2023年第三季度工作日志</span>
+            <span><span class="tag">内部</span> <a href="log-2023.html">查看</a></span>
+        </div>
+        <div class="file-item">
+            <span>📄 实验室设备检查记录</span>
+            <span><span class="tag">内部</span> <a href="equipment.html">查看</a></span>
+        </div>
+        <div class="file-item">
+            <span>📄 2023年12月内部会议纪要</span>
+            <span><span class="tag">内部</span> <a href="meeting.html">查看</a></span>
+        </div>
+    </div>
+
+    <p class="footer-info">最后登录：2024-01-15 09:23:17 | 系统版本 v2.1.4</p>
+
+    <script>
+        var unlocked = false;
+
+        function search() {
+            var input = document.getElementById('searchInput').value.trim();
+            var result = document.getElementById('searchResult');
+
+            if (!input) {
+                result.innerHTML = '';
+                return;
+            }
+
+            // 检查是否是第一层密码
+            if (!unlocked) {
+                if (input === 'MIRROR2023') {
+                    unlocked = true;
+                    result.innerHTML = '<span class="unlocked-msg">✅ 管理员密钥验证通过。搜索功能已解锁。</span>';
+                } else {
+                    result.innerHTML = '<span class="locked-msg">🔒 搜索功能已锁定。请输入管理员密钥。</span>';
+                }
+                return;
+            }
+
+            // 解锁后，根据关键词搜索
+            var keywords = ['名单', '镜像', '特殊', '032', '实验对象', '编号'];
+            var found = false;
+            for (var i = 0; i < keywords.length; i++) {
+                if (input.indexOf(keywords[i]) !== -1) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                result.innerHTML = '<span>🔍 找到 1 条结果：</span><br><a href="special-list.html">📄 特殊人员名单（加密）—— 实验对象编号列表</a>';
+            } else {
+                result.innerHTML = '<span style="color:#888;">🔍 未找到与 "' + input + '" 相关的结果。</span>';
+            }
+        }
+    </script>
+</body>
+</html>

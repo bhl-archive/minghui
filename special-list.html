@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>特殊人员名单 - 明辉内部</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #bbb;
+            font-family: "Courier New", monospace;
+            margin: 30px;
+            line-height: 2;
+            max-width: 700px;
+        }
+        h3 { color: #cc0000; }
+        .warning { color: #cc0000; font-size: 13px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #660000; color: #fff; padding: 10px; text-align: left; }
+        td { border: 1px solid #333; padding: 10px; }
+        .highlight { color: #ffcc00; }
+        a { color: #88ccaa; }
+        .note { color: #888; font-size: 12px; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
+        .sys-log { color: #555; font-size: 11px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <a href="dashboard.html">← 返回后台</a>
+    <h3>⚠ 特殊人员名单（加密）</h3>
+    <p class="warning">密级：最高 | 仅限项目负责人查阅</p>
+
+    <table>
+        <tr><th>编号</th><th>姓名</th><th>年龄</th><th>状态</th><th>备注</th></tr>
+        <tr><td>SUB-001</td><td>江屿</td><td>27</td><td style="color:#cc0000;">已部署</td><td>杭州片区</td></tr>
+        <tr><td>SUB-002</td><td>王██</td><td>31</td><td>已部署</td><td>上海片区</td></tr>
+        <tr><td>SUB-003</td><td>李█</td><td>25</td><td>终止</td><td>排异反应</td></tr>
+        <tr><td>SUB-004</td><td>赵██</td><td>29</td><td>已部署</td><td>北京片区</td></tr>
+        <tr><td>SUB-012</td><td>方镜远</td><td>52</td><td style="color:#ffcc00;">准备中</td><td>自愿者</td></tr>
+    </table>
+
+    <div class="note">
+        <p>注：SUB-012 于2024年1月签署自愿同意书。</p>
+        <p>方教授备注：“我已经无法阻止这个项目。但我可以确保有人知道真相。我把最终档案的密码设置成了<span class="highlight">“他”的名字</span>。他是这座研究所的起点。”</p>
+    </div>
+
+    <div class="sys-log">
+        <p>[系统日志] 镜像计划最终档案访问路径：mirror-truth.html</p>
+        <p>密钥提示：研究所创始人的全名（小写拼音）</p>
+    </div>
+</body>
+</html>
