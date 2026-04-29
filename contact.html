@@ -4,14 +4,113 @@
     <meta charset="UTF-8">
     <title>联系我们 - 明辉脑科学研究所</title>
     <style>
-        body { background-color: #ffffff; font-family: "Microsoft YaHei", "SimSun", sans-serif; margin: 0; padding: 0; color: #333; }
+        body {
+            background-color: #ffffff;
+            font-family: "Microsoft YaHei", "SimSun", sans-serif;
+            margin: 0; padding: 0; color: #333;
+        }
         .header { background-color: #1a3a5c; color: #ffffff; padding: 15px 0; text-align: center; }
+        .header h1 { margin: 0; font-size: 28px; letter-spacing: 2px; }
         .nav { background-color: #0f2a45; padding: 10px 0; text-align: center; }
         .nav a { color: #ffffff; text-decoration: none; margin: 0 25px; font-size: 16px; }
         .nav a:hover { color: #88bbdd; }
         .content { max-width: 800px; margin: 30px auto; padding: 0 20px; line-height: 2; }
+        
+        /* 客服按钮 */
+        .customer-service-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: #1a3a5c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .customer-service-btn:hover { background-color: #0f2a45; }
+
+        /* 客服弹窗 */
+        .chat-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .chat-box {
+            width: 350px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .chat-header {
+            background: #1a3a5c;
+            color: #fff;
+            padding: 12px;
+            text-align: center;
+        }
+        .chat-messages {
+            height: 250px;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+        .chat-messages .msg {
+            margin: 10px 0;
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 80%;
+            clear: both;
+            word-wrap: break-word;
+        }
+        .msg.agent { background: #e6e6e6; float: left; }
+        .msg.user { background: #1a3a5c; color: #fff; float: right; }
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+        }
+        .chat-input button {
+            margin-left: 10px;
+            padding: 8px 20px;
+            background: #1a3a5c;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* 单次红色闪烁 */
+        .red-flash {
+            animation: oneFlash 0.6s ease-out;
+        }
+        @keyframes oneFlash {
+            0%   { background-color: #ff0000; }
+            40%  { background-color: #ff0000; }
+            100% { background-color: #ffffff; }
+        }
+
+        /* 最终消息框 */
+        .final-message {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #cc0000;
+            background: #fff5f5;
+        }
         .footer { background-color: #1a3a5c; color: #ccc; text-align: center; padding: 20px; margin-top: 40px; font-size: 13px; }
-        .hidden-hint { color: #ffffff; font-size: 6px; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -32,14 +131,86 @@
         <p><b>电话：</b>010-XXXX-XXXX</p>
         <p><b>邮箱：</b>info@minghui.org</p>
         <p><b>工作时间：</b>周一至周五 9:00-17:00</p>
-        <br>
-        <p style="color:#999;">如需访问内部系统，请前往管理员登录页面。</p>
-        <p class="hidden-hint">admin-login</p>
+
+        <!-- 在线客服按钮 -->
+        <button class="customer-service-btn" onclick="openChat()">💬 在线客服</button>
+
+        <!-- 客服弹窗 -->
+        <div id="chatOverlay" class="chat-overlay">
+            <div class="chat-box">
+                <div class="chat-header">
+                    <b>明辉研究所 - 在线客服</b>
+                    <span style="float:right; cursor:pointer;" onclick="closeChat()">✕</span>
+                </div>
+                <div id="chatMessages" class="chat-messages">
+                    <div class="msg agent">您好，我是明辉研究所智能客服。请问有什么可以帮您？</div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userMsgInput" placeholder="输入您的问题...">
+                    <button onclick="sendMsg()">发送</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 闪回后显示的管理员入口 -->
+        <div id="finalMessage" class="final-message">
+            <p style="font-size:18px; color:#cc0000;"><b>⚠ 检测到异常请求</b></p>
+            <p style="font-size:14px;">系统已为您转接至管理员后台……</p>
+            <p style="font-size:16px;">
+                <a href="admin-login.html" style="color:#cc0000;">▶ 点击进入内部系统</a>
+            </p>
+        </div>
     </div>
 
     <div class="footer">
         <p>明辉脑科学研究所 | 地址：北京市海淀区学院路XX号</p>
     </div>
+
+    <script>
+        function openChat() {
+            document.getElementById('chatOverlay').style.display = 'flex';
+        }
+        function closeChat() {
+            document.getElementById('chatOverlay').style.display = 'none';
+        }
+
+        var msgCount = 0;
+        function sendMsg() {
+            var input = document.getElementById('userMsgInput');
+            var msg = input.value.trim();
+            if (!msg) return;
+
+            var chatArea = document.getElementById('chatMessages');
+            chatArea.innerHTML += '<div class="msg user">' + msg + '</div>';
+            input.value = '';
+            msgCount++;
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            setTimeout(function(){
+                if (msgCount === 1) {
+                    chatArea.innerHTML += '<div class="msg agent">已收到您的消息。正在查询中，请稍后……</div>';
+                } else if (msgCount === 2) {
+                    chatArea.innerHTML += '<div class="msg agent">系统响应延迟……请稍等……</div>';
+                } else if (msgCount === 3) {
+                    // 显示异常消息
+                    chatArea.innerHTML += '<div class="msg agent" style="color:#cc0000;"><b>[系统异常] 检测到未授权访问。正在为您转接管理员通道……</b></div>';
+                    
+                    // 单次红色闪烁
+                    document.body.classList.add('red-flash');
+                    
+                    // 闪烁结束后关闭客服窗口，显示管理员入口
+                    setTimeout(function(){
+                        document.body.classList.remove('red-flash');
+                        closeChat();
+                        document.getElementById('finalMessage').style.display = 'block';
+                    }, 800);
+                } else {
+                    chatArea.innerHTML += '<div class="msg agent">……</div>';
+                }
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 800);
+        }
+    </script>
 
 </body>
 </html>
