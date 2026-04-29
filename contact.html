@@ -16,7 +16,6 @@
         .nav a:hover { color: #88bbdd; }
         .content { max-width: 800px; margin: 30px auto; padding: 0 20px; line-height: 2; }
         
-        /* 客服按钮 */
         .customer-service-btn {
             display: inline-block;
             margin-top: 20px;
@@ -30,7 +29,6 @@
         }
         .customer-service-btn:hover { background-color: #0f2a45; }
 
-        /* 客服弹窗 */
         .chat-overlay {
             display: none;
             position: fixed;
@@ -91,7 +89,6 @@
             cursor: pointer;
         }
 
-        /* 单次红色闪烁 */
         .red-flash {
             animation: oneFlash 0.6s ease-out;
         }
@@ -101,7 +98,6 @@
             100% { background-color: #ffffff; }
         }
 
-        /* 最终消息框 */
         .final-message {
             display: none;
             text-align: center;
@@ -132,10 +128,8 @@
         <p><b>邮箱：</b>info@minghui.org</p>
         <p><b>工作时间：</b>周一至周五 9:00-17:00</p>
 
-        <!-- 在线客服按钮 -->
         <button class="customer-service-btn" onclick="openChat()">💬 在线客服</button>
 
-        <!-- 客服弹窗 -->
         <div id="chatOverlay" class="chat-overlay">
             <div class="chat-box">
                 <div class="chat-header">
@@ -152,11 +146,11 @@
             </div>
         </div>
 
-        <!-- 闪回后显示的管理员入口 -->
         <div id="finalMessage" class="final-message">
             <p style="font-size:18px; color:#cc0000;"><b>⚠ 检测到异常请求</b></p>
             <p style="font-size:14px;">系统已为您转接至管理员后台……</p>
-            <p style="font-size:16px;">
+            <p style="font-size:14px;">临时管理员账号：<b>admin</b></p>
+            <p style="font-size:16px; margin-top:15px;">
                 <a href="admin-login.html" style="color:#cc0000;">▶ 点击进入内部系统</a>
             </p>
         </div>
@@ -192,13 +186,8 @@
                 } else if (msgCount === 2) {
                     chatArea.innerHTML += '<div class="msg agent">系统响应延迟……请稍等……</div>';
                 } else if (msgCount === 3) {
-                    // 显示异常消息
                     chatArea.innerHTML += '<div class="msg agent" style="color:#cc0000;"><b>[系统异常] 检测到未授权访问。正在为您转接管理员通道……</b></div>';
-                    
-                    // 单次红色闪烁
                     document.body.classList.add('red-flash');
-                    
-                    // 闪烁结束后关闭客服窗口，显示管理员入口
                     setTimeout(function(){
                         document.body.classList.remove('red-flash');
                         closeChat();
