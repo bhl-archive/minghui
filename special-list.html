@@ -17,65 +17,9 @@
         table { width: 100%; border-collapse: collapse; margin: 20px 0; }
         th { background: #660000; color: #fff; padding: 10px; text-align: left; }
         td { border: 1px solid #333; padding: 10px; }
-        .highlight { color: #ffcc00; }
         a { color: #88ccaa; }
         .note { color: #888; font-size: 12px; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
-
-        /* 假恭喜框 */
-        .fake-congrats {
-            border: 2px solid #00cc00;
-            background: #0a1a0a;
-            padding: 25px;
-            margin-top: 30px;
-            text-align: center;
-            cursor: default;
-            transition: all 0.3s;
-        }
-        .fake-congrats .congrats-text {
-            color: #00cc00;
-            font-size: 18px;
-        }
-        .fake-congrats .congrats-sub {
-            color: #888;
-            font-size: 13px;
-            margin-top: 8px;
-        }
-        .fake-congrats .hidden-dots {
-            color: #0a1a0a;
-            font-size: 20px;
-            margin-top: 10px;
-            transition: color 0.3s;
-        }
-        .fake-congrats:hover .hidden-dots {
-            color: #cc0000;
-        }
-        .fake-congrats:hover .congrats-text {
-            color: #cc0000;
-        }
-        .fake-congrats:hover .congrats-sub {
-            color: #cc0000;
-        }
-        .fake-congrats:hover {
-            border-color: #cc0000;
-            background: #1a0a0a;
-        }
-
-        .hint-after {
-            display: none;
-            color: #ffcc00;
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            border: 1px solid #ffcc00;
-            padding: 15px;
-            background: #1a1a00;
-        }
-        .fake-congrats:hover ~ .hint-after {
-            display: block;
-        }
-        .hint-after:hover {
-            display: block;
-        }
+        .sys-log { color: #555; font-size: 11px; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -95,27 +39,6 @@
     <div class="note">
         <p>注：所有标注“自愿参与”的实验对象均已签署知情同意书。本实验严格遵守相关伦理规范。</p>
         <p>记录人：方镜远 | 审核：伦理委员会</p>
-    </div>
-
-    <!-- 假恭喜框 -->
-    <div class="fake-congrats">
-        <p class="congrats-text">🎉 恭喜你找到了真相</p>
-        <p class="congrats-sub">所有实验对象均为自愿参与，流程合规。</p>
-        <p class="hidden-dots">。。。</p>
-    </div>
-
-    <!-- 悬停后出现的提示 -->
-    <div class="hint-after">
-        <p>你确定这是全部吗？</p>
-        <p>回去看看。<b>搜一下他的名字。</b></p>
-    </div>
-</body>
-</html>        <tr><td>SUB-012</td><td>方镜远</td><td>52</td><td style="color:#ffcc00;">准备中</td><td>自愿者</td></tr>
-    </table>
-
-    <div class="note">
-        <p>注：SUB-012 于2024年1月签署自愿同意书。</p>
-        <p>方教授备注：“我已经无法阻止这个项目。但我可以确保有人知道真相。我把最终档案的密码设置成了<span class="highlight">“他”的名字</span>。他是这座研究所的起点。”</p>
     </div>
 
     <div class="sys-log">
